@@ -11,7 +11,7 @@
 		compatible = "zmk,matrix-transform";
 		columns = <15>;
 		rows = <7>;
-#if CONFIG_SHIELD_SOLSTICE_R
+#if CONFIG_SHIELD_MULKEY_R
 		col-offset = <8>;
 #endif
 		
