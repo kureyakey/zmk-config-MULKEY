@@ -6,7 +6,7 @@ if SHIELD_MULKEY_R
         default y
 endif 
 
-if SHIELD_SOLSTICE_L
+if SHIELD_MULKEY_L
     config ZMK_KEYBOARD_NAME
         default "mulkey_L"
 
