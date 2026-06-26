@@ -1,0 +1,4 @@
+name: mulkey_US
+append:
+  EXTRA_CONF_FILE: mulkey_US.conf
+  EXTRA_DTC_OVERLAY_FILE: mulkey_US.overlay
