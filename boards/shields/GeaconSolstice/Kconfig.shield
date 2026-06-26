@@ -1,5 +1,5 @@
-config SHIELD_SOLSTICE_R
-    def_bool $(shields_list_contains,Solstice_R)
+config SHIELD_MULKEY_R
+    def_bool $(shields_list_contains,mulkey_R)
 
-config SHIELD_SOLSTICE_L
-    def_bool $(shields_list_contains,Solstice_L)
+config SHIELD_MULKEY_L
+    def_bool $(shields_list_contains,mulkey_L)
