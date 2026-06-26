@@ -1,0 +1,4 @@
+name: mulkey_JIS
+append:
+  EXTRA_CONF_FILE: mulkey_JIS.conf
+  EXTRA_DTC_OVERLAY_FILE: mulkey_JIS.overlay
