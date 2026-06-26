@@ -42,29 +42,16 @@
     compatible = "nordic,nrf-spim";
 
     trackball: pd@0 {
-        status = "okay";
-        compatible = "pixart,pmw3610";
-        reg = <0>;
-  	    cpi = <600>;
-        spi-max-frequency = <1000000>;
-        evt-type = <INPUT_EV_REL>;
-        x-input-code = <INPUT_REL_X>;
-        y-input-code = <INPUT_REL_Y>;
-        irq-gpios = <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        // ... (トラックボールの設定)
     };
 
-        shifter: mcp23sxx@1 {
-        status = "okay";
-        compatible = "microchip,mcp23sxx";
-        gpio-controller;
-        spi-max-frequency = <1000000>;
-        reg = <1>;
-        label = "MCP23S17";
-        #gpio-cells = <2>;
-        ngpios = <16>;
-        int-gpios = <&xiao_d 2 GPIO_ACTIVE_LOW>;
+    shifter: mcp23sxx@1 {
+        // ... (シフターの設定)
     };
+};
 
+/ {
+    // kscan0 は &spi0 の外側へ移動
     kscan0: kscan_composite {
         compatible = "zmk,kscan-composite";
         matrix {
@@ -74,9 +61,8 @@
             kscan = <&kscan2>;
             row-offset = <8>;
         };
-};
+    };
 
-/ {
     split_inputs {
         #address-cells = <1>;
         #size-cells = <0>;
