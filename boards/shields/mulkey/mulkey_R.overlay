@@ -4,17 +4,31 @@
 #include "mulkey_pinctrl_R.dtsi"
 
 / {
-    kscan0: kscan0 {
+    kscan1: kscan_1 {
         compatible = "zmk,kscan-gpio-charlieplex";
-        interrupt-gpios = <&xiao_d 1 (GPIO_ACTIVE_LOW)>;
+        interrupt-gpios = <&xiao_d 7 (GPIO_ACTIVE_LOW)>;
         gpios
-            = <&xiao_d 6 (GPIO_ACTIVE_LOW)>
-            , <&xiao_d 7 (GPIO_ACTIVE_LOW)>
-            , <&xiao_d 8 (GPIO_ACTIVE_LOW)>
-            , <&xiao_d 9 (GPIO_ACTIVE_LOW)>
-            , <&xiao_d 10 (GPIO_ACTIVE_LOW)>
-            , <&gpio0 9 GPIO_ACTIVE_LOW>
-            , <&gpio0 10 GPIO_ACTIVE_LOW>
+            = <&shifter 0 (GPIO_ACTIVE_LOW)>
+            , <&shifter 1 (GPIO_ACTIVE_LOW)>
+            , <&shifter 2 (GPIO_ACTIVE_LOW)>
+            , <&shifter 3 (GPIO_ACTIVE_LOW)>
+            , <&shifter 4 (GPIO_ACTIVE_LOW)>
+            , <&shifter 5 (GPIO_ACTIVE_LOW)>
+            , <&shifter 6 (GPIO_ACTIVE_LOW)>
+            , <&shifter 7 (GPIO_ACTIVE_LOW)>
+            ;
+    };
+    
+    kscan2: kscan2 {
+        compatible = "zmk,kscan-gpio-direct";
+        input-gpios
+            = <&shifter 8 (GPIO_ACTIVE_LOW)>
+            , <&shifter 9 (GPIO_ACTIVE_LOW)>
+            , <&shifter 10 (GPIO_ACTIVE_LOW)>
+            , <&shifter 11 (GPIO_ACTIVE_LOW)>
+            , <&shifter 12 (GPIO_ACTIVE_LOW)>
+            , <&shifter 13 (GPIO_ACTIVE_LOW)>
+            , <&shifter 14 (GPIO_ACTIVE_LOW)>
             ;
     };
 };
@@ -39,6 +53,29 @@
         y-input-code = <INPUT_REL_Y>;
         force-awake;
     };
+
+        shifter: mcp23sxx@1 {
+        status = "okay";
+        compatible = "microchip,mcp23sxx";
+        gpio-controller;
+        spi-max-frequency = <1000000>;
+        reg = <1>;
+        label = "MCP23S17";
+        #gpio-cells = <2>;
+        ngpios = <16>;
+        int-gpios = <&xiao_d 2 GPIO_ACTIVE_LOW>;
+    };
+
+  
+        kscan0: kscan_composite {
+        compatible = "zmk,kscan-composite";
+        matrix {
+            kscan = <&kscan1>;
+        };
+        direct {
+            kscan = <&kscan2>;
+            row-offset = <8>;
+        };
 };
 
 / {
@@ -57,8 +94,30 @@
         compatible = "zmk,input-listener";
         device = <&trackball_split>;
     };
+&i2c1  {
+    status = "okay";
+    compatible = "nordic,nrf-twi";
+    pinctrl-0 = <&i2c1_default>;
+    pinctrl-1 = <&i2c1_sleep>;
+    pinctrl-names = "default", "sleep";
+    
+    clock-frequency = <100000>; 
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;
+        width = <128>;
+        height = <32>;
+        segment-offset = <0>;
+        page-offset = <0>;
+        display-offset = <0>;
+        multiplex-ratio = <31>;
+        segment-remap;
+        com-invdir;
+        com-sequential;
+        inversion-on;
+        prechargep = <0x22>;
+    };
 };
 
 &xiao_serial { status = "disabled"; };
-&xiao_i2c { status = "disabled"; };
 &uart0 { status = "disabled";};
